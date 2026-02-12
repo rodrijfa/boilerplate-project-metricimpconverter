@@ -1,17 +1,21 @@
 function ConvertHandler() {
-  
+
   this.getNum = function(input) {
     let result;
-    
+
     let num = input.match(/^[\d.\/]+/); 
-    if (!num) return 1;
-    
+    if (!num) {
+      let unitCheck = input.match(/[a-zA-Z]+$/);
+      if (unitCheck) return 1;
+      return undefined;
+    }
+
     num = num[0];
 
     if((num.match(/\//g) || []).length > 1) {
       return undefined;
     }
-  
+
   if(num.includes('/')) {
     let [numerator, denominator] = num.split('/');
     result = parseFloat(numerator) / parseFloat(denominator);
@@ -19,11 +23,12 @@ function ConvertHandler() {
     result = parseFloat(num);
   }
   if (isNaN(result)) return undefined;
+  if (num.split('/').length > 2) return undefined;
 
   return result;
 };
-  
-  
+
+
   this.getUnit = function(input) {
     let result;
 
@@ -36,14 +41,14 @@ function ConvertHandler() {
     if (!validUnits.includes(unit)) {
       return undefined;
     }
-     
+
     if(unit === 'l') {
       return 'L';
     }
-    
+
     return unit;
   };
-  
+
   this.getReturnUnit = function(initUnit) {
     const map = {
       gal: 'L',
@@ -53,7 +58,7 @@ function ConvertHandler() {
       lbs: 'kg',
       kg: 'lbs'
     };
-    
+
     return map[initUnit];
   };
 
@@ -66,10 +71,10 @@ function ConvertHandler() {
       lbs: 'pounds',
       kg: 'kilograms'
     };
-    
+
     return map[unit];
   };
-  
+
   this.convert = function(initNum, initUnit) {
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
@@ -97,14 +102,14 @@ function ConvertHandler() {
         result = initNum / lbsToKg;
         break;
     }
-    
+
     return parseFloat(result.toFixed(5));
   };
-  
+
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
     return `${initNum} ${this.spellOutUnit(initUnit)} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`;
   };
-  
+
 }
 
 module.exports = ConvertHandler;
