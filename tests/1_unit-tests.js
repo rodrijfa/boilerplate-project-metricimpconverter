@@ -76,7 +76,7 @@ suite('Unit Tests', function(){
     test('convertHandler should correctly convert km to mi.', function(){
         assert.approximately(convertHandler.convert(1,'km'), 0.62137, 0.00001);
     });
-    
+
     test('convertHandler should correctly convert lbs to kg.', function(){
         assert.approximately(convertHandler.convert(1,'lbs'), 0.453592, 0.00001);
     });    
