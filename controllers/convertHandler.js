@@ -13,9 +13,21 @@ function ConvertHandler() {
       return undefined;
     }
   
-  if(num.includes('/')) {
-    let [numerator, denominator] = num.split('/');
-    result = parseFloat(numerator) / parseFloat(denominator);
+    if(num.includes('/')) {
+    let parts = num.split('/');
+    
+    if(parts.length !== 2) {
+      return undefined;
+    }
+    
+    let numerator = parseFloat(parts[0]);
+    let denominator = parseFloat(parts[1]);
+    
+    if(isNaN(numerator) || isNaN(denominator)) {
+      return undefined;
+    }
+    
+    result = numerator / denominator;
   } else {
     result = parseFloat(num);
   }
